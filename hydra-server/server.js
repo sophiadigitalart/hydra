@@ -18,33 +18,41 @@ const path = require('path')
 const Datastore = require('nedb')
   db = new Datastore({ filename: './hydra-server/db/saved_sketches', autoload: true})
 
-// check whether on glitch. If on glitch, use http because glitch automatically creates https.
-if(process.env.GLITCH) {
-  var http = require('http')
-  server = http.createServer(app)
+console.log("NODE_ENV:" + process.env.NODE_ENV);
 
-  function checkHttps(req, res, next){
-  // protocol check, if http, redirect to https
-  //console.log("accessing page!", req.params, req.url)
-  if(req.get('X-Forwarded-Proto').indexOf("https")!=-1){
-     // console.log("https, yo")
-      return next()
-    } else {
-      console.log("just http")
-      res.redirect('https://' + req.hostname + req.url);
-    }
-  }
-
-  app.all('*', checkHttps)
+  
+if(process.env.NODE_ENV=='development') {
+  console.log("development http");
+  var http = require('http');
+  server = http.createServer(app);
 } else {
-  var https = require('https')
-  var privateKey = fs.readFileSync(path.join(__dirname, '/certs/key.pem'), 'utf8')
-  var certificate = fs.readFileSync(path.join(__dirname, '/certs/certificate.pem'), 'utf8')
+  // check whether on glitch. If on glitch, use http because glitch automatically creates https.
+  if(process.env.GLITCH) {
+    var http = require('http')
+    server = http.createServer(app)
 
-  var credentials = {key: privateKey, cert: certificate}
-  server = https.createServer(credentials, app)
+    function checkHttps(req, res, next){
+    // protocol check, if http, redirect to https
+    console.log("accessing page!", req.params, req.url)
+    if(req.get('X-Forwarded-Proto').indexOf("https")!=-1){
+      console.log("https, yo")
+        return next()
+      } else {
+        console.log("just http")
+        res.redirect('https://' + req.hostname + req.url);
+      }
+    }
+
+    app.all('*', checkHttps)
+  } else {
+    var https = require('https')
+    var privateKey = fs.readFileSync(path.join(__dirname, '/certs/key.pem'), 'utf8')
+    var certificate = fs.readFileSync(path.join(__dirname, '/certs/certificate.pem'), 'utf8')
+
+    var credentials = {key: privateKey, cert: certificate}
+    server = https.createServer(credentials, app)
+  }
 }
-
 // TURN server access
 var twilio = require('twilio')
 require('dotenv').config()

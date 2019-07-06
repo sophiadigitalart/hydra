@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node ./hydra-server/server.js",
+    "start": "set NODE_ENV=development && node ./hydra-server/server.js",
     "build-main": "browserify ./hydra-server/app/index.js -o ./bundle.js",
     "build-camera": "browserify ./hydra-server/app/camera.js -o ./camera-bundle.js",
     "build-static": "npm run build-main && npm run build-camera",
