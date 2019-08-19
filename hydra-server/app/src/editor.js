@@ -45,6 +45,11 @@ var EditorClass = function () {
         var s = instance.getLine(c.line)
         self.eval(s)
       },
+      'Ctrl-Space': function (instance) {
+        console.log('Ctrl-Space')
+        var text = self.autoComplete(instance)
+        console.log('autocomp', text)
+      },
       'Shift-Ctrl-S': function (instance) {
         screencap()
       },
@@ -132,12 +137,7 @@ EditorClass.prototype.selectCurrentBlock = function (editor) { // thanks to grah
   var pos = editor.getCursor()
   var startline = pos.line
   var endline = pos.line
-  while (startline > 0 && editor.getLine(startline) !== '') {
-    startline--
-  }
-  while (endline < editor.lineCount() && editor.getLine(endline) !== '') {
-    endline++
-  }
+  
   var pos1 = {
     line: startline,
     ch: 0
@@ -154,4 +154,24 @@ EditorClass.prototype.selectCurrentBlock = function (editor) { // thanks to grah
   }
 }
 
+EditorClass.prototype.autoComplete = function (editor) { // thanks to graham wakefield + gibber
+  var pos = editor.getCursor()
+  var startline = pos.line
+  console.log("pos", pos)
+  var pos1 = {
+    line: pos.line,
+    ch: pos.ch - 1
+  }
+  var pos2 = {
+    line: pos.line,
+    ch: pos.ch
+  }
+  var str = editor.getRange(pos1, pos2)
+  if (str = '3') editor.replaceRange('vec3 vvv = vec3(0.0,0.0,0.0);', pos1, pos2)
+  return {
+    start: pos1,
+    end: pos2,
+    text: str
+  }
+}
 module.exports = EditorClass
