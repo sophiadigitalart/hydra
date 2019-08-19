@@ -46,7 +46,6 @@ var EditorClass = function () {
         self.eval(s)
       },
       'Ctrl-Space': function (instance) {
-        console.log('Ctrl-Space')
         var text = self.autoComplete(instance)
         console.log('autocomp', text)
       },
@@ -157,7 +156,6 @@ EditorClass.prototype.selectCurrentBlock = function (editor) { // thanks to grah
 EditorClass.prototype.autoComplete = function (editor) { // thanks to graham wakefield + gibber
   var pos = editor.getCursor()
   var startline = pos.line
-  console.log("pos", pos)
   var pos1 = {
     line: pos.line,
     ch: pos.ch - 1
@@ -167,7 +165,22 @@ EditorClass.prototype.autoComplete = function (editor) { // thanks to graham wak
     ch: pos.ch
   }
   var str = editor.getRange(pos1, pos2)
-  if (str = '3') editor.replaceRange('vec3 vvv = vec3(0.0,0.0,0.0);', pos1, pos2)
+  switch (str) {
+    case '2':
+      editor.replaceRange('vec2 vv = vec2(0.0,0.0);', pos1, pos2)
+      pos1.ch += 5;
+      pos2.ch += 6;
+      editor.setSelection( pos1, pos2)
+      break;
+    case '3':
+      editor.replaceRange('vec3 vvv = vec3(0.0,0.0,0.0);', pos1, pos2)
+      pos1.ch += 5;
+      pos2.ch += 7;
+      editor.setSelection( pos1, pos2)
+      break;
+    default:
+      break;
+  }
   return {
     start: pos1,
     end: pos2,
