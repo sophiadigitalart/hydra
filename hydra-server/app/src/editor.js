@@ -13,17 +13,17 @@ var EditorClass = function () {
   this.cm = CodeMirror.fromTextArea(document.getElementById('code'), {
     theme: 'tomorrow-night-eighties',
     value: 'hello',
-    mode: {name: 'javascript', globalVars: true},
+    mode: { name: 'javascript', globalVars: true },
     lineWrapping: true,
     styleSelectedText: true,
     extraKeys: {
       'Shift-Ctrl-Enter': function (instance) {
-          self.evalAll((code, error) => {
-            console.log('evaluated', code, error)
-            if(!error){
-              self.saveSketch(code)
-            }
-          })
+        self.evalAll((code, error) => {
+          console.log('evaluated', code, error)
+          if (!error) {
+            self.saveSketch(code)
+          }
+        })
       },
       'Shift-Ctrl-G': function (instance) {
         self.shareSketch()
@@ -32,11 +32,11 @@ var EditorClass = function () {
         var l = document.getElementsByClassName('CodeMirror-scroll')[0]
         if (isShowing) {
           l.style.opacity = 0
-          self.logElement.style.opacity  = 0
+          self.logElement.style.opacity = 0
           isShowing = false
         } else {
-          l.style.opacity= 1
-          self.logElement.style.opacity  = 1
+          l.style.opacity = 1
+          self.logElement.style.opacity = 1
           isShowing = true
         }
       },
@@ -66,7 +66,7 @@ var EditorClass = function () {
     }
   })
 
-  this.cm.markText({line: 0, ch: 0}, {line: 6, ch: 42}, {className: 'styled-background'})
+  this.cm.markText({ line: 0, ch: 0 }, { line: 6, ch: 42 }, { className: 'styled-background' })
   this.cm.refresh()
   this.logElement = document.createElement('div')
   this.logElement.className = "console cm-s-tomorrow-night-eighties"
@@ -78,13 +78,13 @@ var EditorClass = function () {
   let searchParams = new URLSearchParams(window.location.search)
   let showCode = searchParams.get('show-code')
 
-    if(showCode == "false") {
-      console.log("not showing code")
-      var l = document.getElementsByClassName('CodeMirror-scroll')[0]
-      l.style.display = 'none'
-      self.logElement.style.display = 'none'
-      isShowing = false
-    }
+  if (showCode == "false") {
+    console.log("not showing code")
+    var l = document.getElementsByClassName('CodeMirror-scroll')[0]
+    l.style.display = 'none'
+    self.logElement.style.display = 'none'
+    isShowing = false
+  }
   //}
 }
 
@@ -92,11 +92,11 @@ EditorClass.prototype.clear = function () {
   this.cm.setValue('\n \n // Type some code on a new line (such as "osc().out()"), and press CTRL+shift+enter')
 }
 
-EditorClass.prototype.saveSketch = function(code) {
+EditorClass.prototype.saveSketch = function (code) {
   console.log('no function for save sketch has been implemented')
 }
 
-EditorClass.prototype.shareSketch = function(code) {
+EditorClass.prototype.shareSketch = function (code) {
   console.log('no function for share sketch has been implemented')
 }
 
@@ -105,8 +105,8 @@ EditorClass.prototype.shareSketch = function(code) {
 // }
 
 EditorClass.prototype.evalAll = function (callback) {
-  this.eval(this.cm.getValue(), function (code, error){
-    if(callback) callback(code, error)
+  this.eval(this.cm.getValue(), function (code, error) {
+    if (callback) callback(code, error)
   })
 }
 
@@ -119,24 +119,24 @@ EditorClass.prototype.eval = function (arg, callback) {
     self.log(jsString)
   } catch (e) {
     isError = true
-  //  console.log("logging", e.message)
+    //  console.log("logging", e.message)
     self.log(e.message, "log-error")
     //console.log('ERROR', JSON.stringify(e))
   }
-//  console.log('callback is', callback)
-  if(callback) callback(jsString, isError)
+  //  console.log('callback is', callback)
+  if (callback) callback(jsString, isError)
 
 }
 
-EditorClass.prototype.log = function(msg, className = "") {
-  this.logElement.innerHTML =` >> <span class=${className}> ${msg} </span> `
+EditorClass.prototype.log = function (msg, className = "") {
+  this.logElement.innerHTML = ` >> <span class=${className}> ${msg} </span> `
 }
 
 EditorClass.prototype.selectCurrentBlock = function (editor) { // thanks to graham wakefield + gibber
   var pos = editor.getCursor()
   var startline = pos.line
   var endline = pos.line
-  
+
   var pos1 = {
     line: startline,
     ch: 0
@@ -167,17 +167,109 @@ EditorClass.prototype.autoComplete = function (editor) { // thanks to graham wak
   var str = editor.getRange(pos1, pos2)
   switch (str) {
     case '2':
-      editor.replaceRange('vec2 vv = vec2(0.0,0.0);', pos1, pos2)
+      editor.replaceRange('vec2 vv = vec2(0.0, 0.0);', pos1, pos2)
       pos1.ch += 5;
       pos2.ch += 6;
-      editor.setSelection( pos1, pos2)
+      editor.setSelection(pos1, pos2)
       break;
     case '3':
-      editor.replaceRange('vec3 vvv = vec3(0.0,0.0,0.0);', pos1, pos2)
+      editor.replaceRange('vec3 vvv = vec3(0.0, 0.0, 0.0);', pos1, pos2)
       pos1.ch += 5;
       pos2.ch += 7;
-      editor.setSelection( pos1, pos2)
+      editor.setSelection(pos1, pos2)
       break;
+    case '4':
+      editor.replaceRange('vec4 vvvv = vec4(0.0, 0.0, 0.0, 0.0);', pos1, pos2)
+      pos1.ch += 5;
+      pos2.ch += 8;
+      editor.setSelection(pos1, pos2)
+      break;
+    case '1':
+      editor.replaceRange('float f = 0.0;', pos1, pos2)
+      pos1.ch += 6;
+      pos2.ch += 6;
+      editor.setSelection(pos1, pos2)
+      break;
+    // functions
+    case 'f':
+      editor.replaceRange(`float fcf(in vec3 pos) {float f = 0.0;return f;}`, pos1, pos2)
+      pos1.ch += 6;
+      pos2.ch += 8;
+      editor.setSelection(pos1, pos2)
+      break;
+    case 'g':
+      editor.replaceRange(`vec2 fc2(in vec3 pos) {vec2 vv = vec2(0.0, 0.0);return vv;}`, pos1, pos2)
+      pos1.ch += 5;
+      pos2.ch += 7;
+      editor.setSelection(pos1, pos2)
+      break;
+    case 'h':
+      editor.replaceRange(`vec3 fc3(in vec3 pos) {vec3 vvv = vec3(0.0, 0.0, 0.0);return vvv;}`, pos1, pos2)
+      pos1.ch += 5;
+      pos2.ch += 7;
+      editor.setSelection(pos1, pos2)
+      break;
+    case 'j':
+      editor.replaceRange(`vec4 fc4(in vec3 pos) {vec4 vvvv = vec4(0.0, 0.0, 0.0, 0.0);return vvvv;}`, pos1, pos2)
+      pos1.ch += 5;
+      pos2.ch += 7;
+      editor.setSelection(pos1, pos2)
+      break;
+
+    // main
+    case 'm':
+      editor.replaceRange(`void main () {vec2 st = (2.0*gl_FragCoord.xy-resolution.xy)/resolution.xy; gl_FragColor = vec4(st.x,st.y,0.0,1.0);}`, pos1, pos2)
+      pos1.ch += 74;
+      pos2.ch += 74;
+      editor.setSelection(pos1, pos2)
+      break;
+    // for
+    case 'r':
+      editor.replaceRange('for (int i=0; i<2 ;i++) { }', pos1, pos2)
+      pos1.ch += 25;
+      pos2.ch += 25;
+      editor.setSelection(pos1, pos2)
+      break;
+    case 's':
+      editor.replaceRange('sin(time)', pos1, pos2)
+      pos1.ch += 4;
+      pos2.ch += 7;
+      editor.setSelection(pos1, pos2)
+      break;
+    case 'c':
+      editor.replaceRange('cos(time)', pos1, pos2)
+      pos1.ch += 4;
+      pos2.ch += 7;
+      editor.setSelection(pos1, pos2)
+      break;
+    // if   
+    case '=':
+      editor.replaceRange('if (i==0) { } else { }', pos1, pos2)
+      pos1.ch += 11;
+      pos2.ch += 11;
+      editor.setSelection(pos1, pos2)
+      break;
+    case '>':
+      editor.replaceRange('if (i>0) { } else { }', pos1, pos2)
+      pos1.ch += 10;
+      pos2.ch += 10;
+      editor.setSelection(pos1, pos2)
+      break;
+    case '<':
+      editor.replaceRange('if (i<0) { } else { }', pos1, pos2)
+      pos1.ch += 10;
+      pos2.ch += 10;
+      editor.setSelection(pos1, pos2)
+      break;
+    case '#':
+      editor.replaceRange(`#if V==1
+      #else
+      #endif`, pos1, pos2)
+      pos1.ch += 4;
+      pos2.ch += 4;
+      editor.setSelection(pos1, pos2)
+      break;
+
     default:
       break;
   }
