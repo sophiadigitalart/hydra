@@ -190,6 +190,12 @@ EditorClass.prototype.autoComplete = function (editor) { // thanks to graham wak
       pos2.ch += 6;
       editor.setSelection(pos1, pos2)
       break;
+    case '{':
+      editor.replaceRange(`{;}`, pos1, pos2)
+      break;
+    case '(':
+      editor.replaceRange(`()`, pos1, pos2)
+      break;
     // functions
     case 'f':
       editor.replaceRange(`float fcf(in vec3 pos) {float f = 0.0;return f;}`, pos1, pos2)
@@ -215,7 +221,15 @@ EditorClass.prototype.autoComplete = function (editor) { // thanks to graham wak
       pos2.ch += 7;
       editor.setSelection(pos1, pos2)
       break;
-
+      // objects
+    case 'c':
+      break;
+    case 'v':
+      break;
+    case 'b':
+      break;
+    case 'n':
+      break;
     // main
     case 'm':
       editor.replaceRange(`void main () {vec2 st = (2.0*gl_FragCoord.xy-resolution.xy)/resolution.xy; gl_FragColor = vec4(st.x,st.y,0.0,1.0);}`, pos1, pos2)
@@ -244,23 +258,30 @@ EditorClass.prototype.autoComplete = function (editor) { // thanks to graham wak
       break;
     // if   
     case '=':
-      editor.replaceRange('if (i==0) { } else { }', pos1, pos2)
-      pos1.ch += 11;
-      pos2.ch += 11;
+      editor.replaceRange('if (i==0.0) { } else { }', pos1, pos2)
+      pos1.ch += 13;
+      pos2.ch += 13;
       editor.setSelection(pos1, pos2)
       break;
     case '>':
-      editor.replaceRange('if (i>0) { } else { }', pos1, pos2)
-      pos1.ch += 10;
-      pos2.ch += 10;
+      editor.replaceRange('if (i>0.0) { } else { }', pos1, pos2)
+      pos1.ch += 12;
+      pos2.ch += 12;
       editor.setSelection(pos1, pos2)
       break;
     case '<':
-      editor.replaceRange('if (i<0) { } else { }', pos1, pos2)
-      pos1.ch += 10;
-      pos2.ch += 10;
+      editor.replaceRange('if (i<0.0) { } else { }', pos1, pos2)
+      pos1.ch += 12;
+      pos2.ch += 12;
       editor.setSelection(pos1, pos2)
       break;
+      /*case 't':
+          editor.replaceRange('vec4 t0 = texture2D(tex0, st);', pos1, pos2)
+          pos1.ch += 10;
+          pos2.ch += 10;
+          editor.setSelection(pos1, pos2)
+          break; */
+    
     case '#':
       editor.replaceRange(`#if V==1
       #else
