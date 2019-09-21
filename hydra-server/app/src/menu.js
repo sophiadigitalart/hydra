@@ -11,20 +11,22 @@ class Menu {
     this.closeButton = document.getElementById("close-icon")
     this.clearButton =  document.getElementById("clear-icon")
     this.shareButton =  document.getElementById("share-icon")
-    this.shuffleButton = document.getElementById("shuffle-icon") 
+    this.shuffleButton = document.getElementById("shuffle-icon")
     this.editorText = document.getElementsByClassName('CodeMirror-scroll')[0]
 
     this.shuffleButton.onclick = this.shuffleSketches.bind(this)
     this.shareButton.onclick = this.shareSketch.bind(this)
-    this.clearButton.onclick = this.clearAll.bind(this) 
+    this.clearButton.onclick = this.clearAll.bind(this)
     this.closeButton.onclick = () => {
       if(!this.isClosed) {
         this.closeModal()
       } else {
         this.openModal()
       }
-    }  
+    }
+
     this.isClosed = false
+    this.closeModal()
   }
 
   shuffleSketches() {

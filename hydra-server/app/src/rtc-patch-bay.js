@@ -1,7 +1,7 @@
 // Module for handling connections to multiple peers.
 
 
-//var io = require('socket.io-client')
+var io = require('socket.io-client')
 var SimplePeer = require('simple-peer')
 var extend = Object.assign
 var events = require('events').EventEmitter
@@ -10,8 +10,7 @@ const shortid = require('shortid')
 
 var PatchBay = function (options) {
 // connect to websocket signalling server. To DO: error validation
-  //this.signaller = io(options.server)
-  this.signaller =  new WebSocket('ws://127.0.0.1:8088/');
+  this.signaller = io(options.server)
 
   //assign unique id to this peer, or use id passed in
 
@@ -38,7 +37,7 @@ var PatchBay = function (options) {
   this.rtcPeers = {}
 
   // Handle events from signalling server
-  /* BL TODO this.signaller.on is not a function this.signaller.on('ready', this._readyForSignalling.bind(this))
+  this.signaller.on('ready', this._readyForSignalling.bind(this))
 //  this.signaller.on('peers', )
 //  this.signaller.on('signal', this._handleSignal.bind(this))
   this.signaller.on('message', this._handleMessage.bind(this))
@@ -48,7 +47,7 @@ var PatchBay = function (options) {
   // emit 'join' event to signalling server
   this.signaller.emit('join', this._room, {uuid: this.id})
 
-  this.signaller.on('new peer', this._newPeer.bind(this))*/
+  this.signaller.on('new peer', this._newPeer.bind(this))
 }
 // inherits from events module in order to trigger events
 inherits(PatchBay, events)
