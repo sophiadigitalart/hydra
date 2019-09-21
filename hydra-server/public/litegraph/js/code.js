@@ -54,6 +54,7 @@ function addDemo( name, url )
 
 //some examples
 addDemo("Batchass-MSML", "litegraph/json/msml.json");
+addDemo("Batchass-SOS", "litegraph/json/sos.json");
 addDemo("Julien", "litegraph/json/julien.json");
 addDemo("Batchass-Sky", "litegraph/json/sky.json");
 addDemo("fearfromanotherplanet", "litegraph/json/fearfromanotherplanet.json");
