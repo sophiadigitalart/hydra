@@ -123,7 +123,7 @@ EditorClass.prototype.eval = function (arg, callback) {
   try {
     eval(jsString)
     //self.log(jsString)
-    self.log("Ok")
+    self.log("Compiles Ok!")
   } catch (e) {
     isError = true
   //  console.log("logging", e.message)
