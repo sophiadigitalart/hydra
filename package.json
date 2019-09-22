@@ -37,7 +37,11 @@
     "webrtc-adapter": "^6.3.0"
   },
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babelify": "^10.0.0",
     "browserify": "^16.2.3",
+    "glslify": "^7.0.0",
     "standard": "^11.0.1",
     "watchify": "^3.11.1"
   }
