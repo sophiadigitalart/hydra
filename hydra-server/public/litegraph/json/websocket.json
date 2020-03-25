@@ -116,7 +116,7 @@
                 }
             ],
             "properties": {
-                "url": "turbulens.fr/ws/",
+                "url": "127.0.0.1/ws/",
                 "room": "lgraph",
                 "only_send_changes": true
             },
