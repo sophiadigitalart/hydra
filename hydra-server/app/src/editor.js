@@ -65,13 +65,45 @@ var EditorClass = function () {
         webrtcsend()
       },
       'Alt-Enter': (instance) => {
+        self.midi()
         var text = self.selectCurrentBlock(instance)
         console.log('text', text)
         self.eval(text.text)
       }
     }
   })
-
+  // midi begin
+  EditorClass.prototype.midi = function () {
+    console.log(`midi setup`)
+    // register WebMIDI
+    navigator.requestMIDIAccess()
+    .then(onMIDISuccess, onMIDIFailure);
+    
+    function onMIDISuccess(midiAccess) {
+      console.log(`midiAccess: ${midiAccess}`)
+      var inputs = midiAccess.inputs;
+      var outputs = midiAccess.outputs;
+      for (var input of midiAccess.inputs.values()){
+          input.onmidimessage = getMIDIMessage;
+      }
+    }
+    
+    function onMIDIFailure() {
+      console.log('Could not access your MIDI devices.');
+    }
+    
+    //create an array to hold our cc values and init to a normalized value
+    window.cc=Array(128).fill(0.5)
+    
+    getMIDIMessage = function(midiMessage) {
+      var arr = midiMessage.data    
+      var index = arr[1]
+      //console.log('Midi received on cc#' + index + ' value:' + arr[2])    // uncomment to monitor incoming Midi
+      var val = (arr[2]+1)/128.0  // normalize CC values to 0.0 - 1.0
+      window.cc[index]=val
+    }
+  }
+  // midi end
   this.cm.markText({line: 0, ch: 0}, {line: 6, ch: 42}, {className: 'styled-background'})
   this.cm.refresh()
   this.logElement = document.createElement('div')

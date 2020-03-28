@@ -7,7 +7,7 @@ const app = express()
 const browserify = require('browserify-middleware')
 const path = require('path')
 const configureSSL = require('./configure-ssl.js')
-
+const port = process.env.PORT || 3780;
  var server = configureSSL(app)
 
 //
@@ -25,10 +25,10 @@ var io = require('socket.io')(server)
 require('./twitter-gallery.js')(app)
 
 // crear un servidor en puerto 8000
-server.listen(8000, function () {
+server.listen(port, function () {
   // imprimir la direccion ip en la consola
   // console.log('servidor disponible en https://'+myip.getLocalIP4()+':8000')
-  console.log('server available at https://localhost:8000')
+  console.log('server available at https://localhost:' + port)
 })
 
 // look up uuid by entiring socket id

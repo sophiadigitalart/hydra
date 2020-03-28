@@ -13,9 +13,9 @@ window.onbeforeunload = function(){
 //create scene selector
 var elem = document.createElement("span");
 elem.className = "selector";
-elem.innerHTML = "<select><option>Spidermoon</option></select> <label id='save'></label><label id='load'></label>";// BL was button
+elem.innerHTML = "<select><option>Gunston</option></select> <label id='save'></label><label id='load'></label>";// BL was button
 editor.tools.appendChild(elem);
-graph.load( "litegraph/json/spidermoon.json" );
+graph.load( "litegraph/json/gunston.json" );
 var select = elem.querySelector("select");
 select.addEventListener("change", function(e){
 	var option = this.options[this.selectedIndex];
