@@ -64,8 +64,10 @@ var EditorClass = function () {
       'Alt-S': function (instance) {
         webrtcsend()
       },
-      'Alt-Enter': (instance) => {
+      'Alt-M': (instance) => {
         self.midi()
+      },
+      'Alt-Enter': (instance) => {
         var text = self.selectCurrentBlock(instance)
         console.log('text', text)
         self.eval(text.text)
@@ -98,8 +100,8 @@ var EditorClass = function () {
     getMIDIMessage = function(midiMessage) {
       var arr = midiMessage.data    
       var index = arr[1]
-      //console.log('Midi received on cc#' + index + ' value:' + arr[2])    // uncomment to monitor incoming Midi
       var val = (arr[2]+1)/128.0  // normalize CC values to 0.0 - 1.0
+      console.log('Midi received on cc#' + index + ' value:' + val)    // uncomment to monitor incoming Midi
       window.cc[index]=val
     }
   }

@@ -24,6 +24,7 @@ Go to https://hydra-editor.glitch.me
 * CTRL-Enter: run a line of code
 * CTRL-Shift-Enter: run all code on screen
 * ALT-Enter: run a block
+* ALT-M: enable MIDI
 * CTRL-Shift-H: hide or show code
 * CTRL-Shift-S: Save screenshot and download as local file
 * CTRL-Shift-G: Share to twitter (if available). Shares to [@hydra_patterns](https://twitter.com/hydra_patterns)
