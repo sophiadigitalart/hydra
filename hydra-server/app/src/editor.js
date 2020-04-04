@@ -82,7 +82,7 @@ var EditorClass = function () {
     .then(onMIDISuccess, onMIDIFailure);
     
     function onMIDISuccess(midiAccess) {
-      console.log(`midiAccess: ${midiAccess}`)
+      console.log(`midiAccess: ${JSON.stringify(midiAccess)}`)
       var inputs = midiAccess.inputs;
       var outputs = midiAccess.outputs;
       for (var input of midiAccess.inputs.values()){
@@ -267,17 +267,27 @@ EditorClass.prototype.autoComplete = function (editor) { // thanks to graham wak
       pos2.ch += 7;
       editor.setSelection(pos1, pos2)
       break;
-      // objects
-    case 'c':
+    // hydra functions
+    case 't':
+      editor.replaceRange(`() => Math.sin(time) * 1.0`, pos1, pos2)
+      pos1.ch += 23;
+      pos2.ch += 23;
+      editor.setSelection(pos1, pos2)
       break;
-    case 'v':
+    case 'a':
+      editor.replaceRange(`() => a.fft[1] * 1.0`, pos1, pos2)
+      pos1.ch += 12;
+      pos2.ch += 12;
+      editor.setSelection(pos1, pos2)
       break;
-    case 'b':
-      break;
-    case 'n':
+    case 'm':
+      editor.replaceRange(`() => cc[11] * 1.0`, pos1, pos2)
+      pos1.ch += 10;
+      pos2.ch += 10;
+      editor.setSelection(pos1, pos2)
       break;
     // main
-    case 'm':
+    case 'n':
       editor.replaceRange(`void main () {vec2 st = (2.0*gl_FragCoord.xy-resolution.xy)/resolution.xy; gl_FragColor = vec4(st.x,st.y,0.0,1.0);}`, pos1, pos2)
       pos1.ch += 74;
       pos2.ch += 74;
