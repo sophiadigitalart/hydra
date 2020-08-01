@@ -297,6 +297,7 @@ EditorClass.prototype.autoComplete = function (editor) { // thanks to graham wak
     found = true;
     var str = editor.getRange(pos1, pos2)
     switch (str) {
+      // frag vars
       case '2':
         editor.replaceRange('vec2 vv = vec2(0.0, 0.0);', pos1, pos2)
         pos1.ch += 5;
@@ -327,7 +328,7 @@ EditorClass.prototype.autoComplete = function (editor) { // thanks to graham wak
       case '(':
         editor.replaceRange(`()`, pos1, pos2)
         break;
-      // functions
+      // frag functions
       case 'f':
         editor.replaceRange(`float fcf(in vec3 pos) {float f = 0.0;return f;}`, pos1, pos2)
         pos1.ch += 6;
